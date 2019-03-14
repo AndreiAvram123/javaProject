@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Scanner;
 
-public class Vehicle {
+public abstract class Vehicle {
 
     private String group;
     private String vehID;
@@ -31,21 +31,33 @@ public class Vehicle {
      */
     public void readData(Scanner scanner) {
         if (scanner != null) {
-            group = scanner.next().trim();
-            vehID = scanner.next().trim();
-            regNo = scanner.next().trim();
-            make = scanner.next().trim();
-            model = scanner.next().trim();
-            airCon = scanner.nextBoolean();
+            group = scanner.next();
+            vehID = scanner.next();
+            regNo = scanner.next();
+            make = scanner.next();
+            model = scanner.next();
+            airCon = convertToBoolean(scanner.next());
             engineSize = scanner.nextDouble();
-            fuelType = scanner.next().trim();
-            gearBox = scanner.next().trim();
-            transmission = scanner.next().trim();
+            fuelType = scanner.next();
+            gearBox = scanner.next();
+            transmission = scanner.next();
             mileage = scanner.nextInt();
-            dateFirstRegistered = scanner.next().trim();
+            dateFirstRegistered = scanner.next();
+
             }
         }
 
+
+
+    private boolean convertToBoolean(String next) {
+        return next.equals("Yes");
+    }
+
+    private String convertToString(Boolean bool){
+        if(bool){
+            return "Yes";
+        }else return "No";
+    }
 
 
     /**
@@ -56,7 +68,7 @@ public class Vehicle {
     public void printDetails() {
      String outputLine = String.format("%s  Group: %s  Vehicle Id: %s \nAir conditioning/Climate Control: %s \nEngine Size: %s  " +
              "Fuel: %s \nGearbox: %s Transmission: %s \nMileage: %s  Date first registered: %s",
-             model,group,vehID,airCon,engineSize,fuelType,gearBox,transmission,mileage,dateFirstRegistered);
+             model,group,vehID,convertToString(airCon),engineSize,fuelType,gearBox,transmission,mileage,dateFirstRegistered);
       System.out.println(outputLine);
     }
 

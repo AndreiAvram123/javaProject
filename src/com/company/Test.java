@@ -39,11 +39,54 @@ public class Test {
 
         //check if the method readData() still works after we have
         //added additional fields
-        Scanner testScanner = new Scanner("AA, TF-63403, MJ09TFE, Fiat, Panda Active Eco, No,  1.1, Unleaded, five-speed manual, FWD, 13584, 29-07-2009, Hatchback, 5, 5");
-        Vehicle vehicle = new Vehicle();
-        vehicle.readData(testScanner);
+      //  Scanner testScanner = new Scanner("AA, TF-63403, MJ09TFE, Fiat, Panda Active Eco, No,  1.1, Unleaded, five-speed manual, FWD, 13584, 29-07-2009, Hatchback, 5, 5");
+       // Vehicle vehicle = new Vehicle();
+        //vehicle.readData(testScanner);
         //check if the method printDetails() still works
-        vehicle.printDetails();
+        //vehicle.printDetails();
+
+
+
+        //check if we are able to read the car data
+        //right now ,because of the switch statement I implemented
+        //the  other vehicle data except from car data will not be read
+       // ReservationSystem reservationSystem = new ReservationSystem();
+        //reservationSystem.readVehicleData();
+        //check if we the data has been read properly
+        //reservationSystem.printAllVehicles();
+
+       //TODO
+        // check if we are able to read the data for the van
+
+
+        //TODO
+        //check if we are able to create a customer
+
+
+        //TODO
+        //check if the method readData() from the customer class works
+
+        //Check to see what happens if we don't select a file
+        //for customer data or we select a file that is not .txt
+        ReservationSystem reservationSystem = new ReservationSystem();
+        reservationSystem.readCustomerData();
+        //read the data from the proper txt file and check if we get
+        //the expected output
+        reservationSystem.readCustomerData();
+        reservationSystem.printAllCusomers();
+
+
+
+        //TODO
+        //check if storeCustomer works
+
+        //TODO
+        //check everything
+
+
+        //TODO
+        //take a look at Junit testing
+
 
     }
 }
