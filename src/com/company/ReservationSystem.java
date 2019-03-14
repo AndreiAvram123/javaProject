@@ -3,6 +3,7 @@ package com.company;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,31 +49,51 @@ public class ReservationSystem {
      */
     public void readCustomerData() {
         String filePath = getFilePathFromDialog();
-         if(isFilePathValid(filePath)) {
-             File file = new File(filePath);
-             Scanner read = null;
-             try {
-                 read = new Scanner(file);
-             } catch (FileNotFoundException e) {
-                 e.printStackTrace();
-             }
-             while(read.hasNextLine()){
-                 String readLine = read.nextLine().trim();
-                 Scanner scanner = new Scanner(readLine);
-                 scanner.useDelimiter("\\s*,\\s*");
-                 Customer customer = new Customer();
-                 customer.readData(scanner);
-                 storeCustomer(customer);
-                 }
-             }
-         }
+        if (isFilePathValid(filePath)) {
+            File file = new File(filePath);
+            Scanner read = null;
+            try {
+                read = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (read != null) {
+                while (read.hasNextLine()) {
+                    String readLine = read.nextLine().trim();
+                    if (!readLine.isBlank()) {
+                        if (!readLine.startsWith("//")) {
+                            Scanner scanner = new Scanner(readLine);
+                            scanner.useDelimiter("\\s*,\\s*");
+                            Customer customer = new Customer();
+                            customer.readData(scanner);
+                            storeCustomer(customer);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     /**
      * This method is used to print all
      * customer data to a txt file
-      */
-    public void writeCustomerData(){
+     */
+    public void writeCustomerData() {
+        PrintWriter printWriter = null;
+        try {
+            printWriter = new PrintWriter("saved_customer_data.txt");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (printWriter != null) {
+            for (Customer customer : customerList) {
+                customer.writeData(printWriter);
+            }
+            printWriter.close();
+        }
 
     }
 
@@ -91,7 +112,7 @@ public class ReservationSystem {
      */
     private boolean isFilePathValid(String filePath) {
         if (filePath == null) {
-            System.out.println("Invalid file format");
+            System.out.println("Please select a file!!");
             return false;
         }
         if (!filePath.contains(".txt")) {
@@ -135,7 +156,6 @@ public class ReservationSystem {
                             if (!outputLine.matches("^\\[.+\\]$")) {
                                 //       System.out.println(outputLine);
                                 Scanner secondScanner = new Scanner(outputLine);
-
                                 secondScanner.useDelimiter("\\s*,\\s*");
                                 //check what kind of vehicle we need to read
                                 Vehicle vehicle = null;
@@ -173,7 +193,7 @@ public class ReservationSystem {
     private String getFilePathFromDialog() {
         Frame frame = null;
         FileDialog fileDialog = new FileDialog(frame, "Open", FileDialog.LOAD);
-        fileDialog.setDirectory("C:/Users/andrei/Desktop/java project");
+        fileDialog.setDirectory("C:\\Users\\andrei\\Desktop\\java project");
         fileDialog.setVisible(true);
         return fileDialog.getFile();
     }

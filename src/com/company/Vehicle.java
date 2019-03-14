@@ -44,19 +44,20 @@ public abstract class Vehicle {
             mileage = scanner.nextInt();
             dateFirstRegistered = scanner.next();
 
-            }
         }
-
+    }
 
 
     private boolean convertToBoolean(String next) {
         return next.equals("Yes");
     }
 
-    private String convertToString(Boolean bool){
-        if(bool){
+    private String convertToString(Boolean bool) {
+        if (bool) {
             return "Yes";
-        }else return "No";
+        } else {
+            return "No";
+        }
     }
 
 
@@ -66,10 +67,10 @@ public abstract class Vehicle {
      * vehicle
      */
     public void printDetails() {
-     String outputLine = String.format("%s  Group: %s  Vehicle Id: %s \nAir conditioning/Climate Control: %s \nEngine Size: %s  " +
-             "Fuel: %s \nGearbox: %s Transmission: %s \nMileage: %s  Date first registered: %s",
-             model,group,vehID,convertToString(airCon),engineSize,fuelType,gearBox,transmission,mileage,dateFirstRegistered);
-      System.out.println(outputLine);
+        String outputLine = String.format("%s  Group: %s  Vehicle Id: %s \nAir conditioning/Climate Control: %s \nEngine Size: %s  " +
+                        "Fuel: %s \nGearbox: %s Transmission: %s \nMileage: %s  Date first registered: %s",
+                model, group, vehID, convertToString(airCon), engineSize, fuelType, gearBox, transmission, mileage, dateFirstRegistered);
+        System.out.println(outputLine);
     }
 
     public String getGroup() {

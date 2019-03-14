@@ -1,11 +1,10 @@
 package com.company;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class Truck extends Commercial {
-    //TODO
-    //think about a hashMap
-    private List<String> attributes;
+
+    private HashMap<String,Boolean> attributes;
 
     public Truck(){
         super();

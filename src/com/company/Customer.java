@@ -31,12 +31,14 @@ public class Customer {
      * @param scanner
      */
     public void readData(Scanner scanner){
-        customerID = scanner.next();
-        surname = scanner.next();
-        firstName = scanner.next();
-        otherInitials = scanner.next();
-        title = scanner.next();
-        scanner.close();
+        if(scanner!=null) {
+            customerID = scanner.next();
+            surname = scanner.next();
+            firstName = scanner.next();
+            otherInitials = scanner.next();
+            title = scanner.next();
+            scanner.close();
+        }
     }
 
     /**
@@ -56,7 +58,9 @@ public class Customer {
      * @param printWriter
      */
     public void  writeData(PrintWriter printWriter){
-
+         String outputLine = String.format("%s , %s , %s , %s , %s",
+                 customerID,surname,firstName,otherInitials,title);
+         printWriter.println(outputLine);
     }
 
 
