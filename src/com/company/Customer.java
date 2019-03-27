@@ -64,6 +64,8 @@ public class Customer {
     }
 
 
+
+
     public String getCustomerID() {
         return customerID;
     }
@@ -82,5 +84,9 @@ public class Customer {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 }

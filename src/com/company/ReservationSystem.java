@@ -4,21 +4,27 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 
 public class ReservationSystem {
 
-    private ArrayList<Vehicle> vehicleList;
-    private ArrayList<Customer> customerList;
+     private List<Vehicle> vehicleList;
+      private List<Customer> customerList;
+    private Map<String,Vehicle> vehicleMap;
+    private Map<String,Customer> customerMap;
+    private Random randomGenerator;
 
     /**
      * Default constructor
-     * Used to initialize the vehicleList
+     * Used to initialize the vehicleMap
      */
     public ReservationSystem() {
         vehicleList = new ArrayList<Vehicle>();
         customerList = new ArrayList<Customer>();
+        vehicleMap = new HashMap<String,Vehicle>();
+        customerMap = new HashMap<String,Customer>();
+        randomGenerator = new Random();
     }
 
     /**
@@ -28,9 +34,14 @@ public class ReservationSystem {
      * the vehicle list
      */
     public void printAllVehicles() {
-        for (Vehicle vehicle : vehicleList) {
-            vehicle.printDetails();
-        }
+//        for (Vehicle vehicle : vehicleMap) {
+//            vehicle.printDetails();
+//        }
+
+        for(Vehicle vehicle : vehicleMap.values()){
+              vehicle.printDetails();
+          }
+
     }
 
     /**
@@ -38,9 +49,14 @@ public class ReservationSystem {
      * print the details of all customers
      */
     public void printAllCusomers() {
-        for (Customer customer : customerList) {
+        for(Customer customer : customerMap.values()){
             customer.printDetails();
         }
+
+        for(Customer customer : customerMap.values()){
+            customer.printDetails();
+        }
+
     }
 
     /**
@@ -89,9 +105,15 @@ public class ReservationSystem {
         }
 
         if (printWriter != null) {
-            for (Customer customer : customerList) {
-                customer.writeData(printWriter);
-            }
+
+//            for (Customer customer : customerMap) {
+//                customer.writeData(printWriter);
+//            }
+
+               for(Map.Entry<String,Customer> entry : customerMap.entrySet()){
+                     entry.getValue().writeData(printWriter);
+               }
+
             printWriter.close();
         }
 
@@ -102,8 +124,48 @@ public class ReservationSystem {
      * to store a customer
      */
     public void storeCustomer(Customer customer) {
-        customerList.add(customer);
+        String customerID = customer.getCustomerID();
+        if(customerID.equals("unknown")){
+             String generatedID = generateCustomerID("AB-",6);
+             while(!isGeneratedIDUnique(generatedID)){
+                 generatedID = generateCustomerID("AB-",6);
+             }
+            customer.setCustomerID(generatedID);
+
+        }
+
+        customerMap.put(customerID,customer);
+
     }
+
+    private boolean isGeneratedIDUnique(String generatedID) {
+        int index =0;
+        while(index < customerMap.size()){
+            if(customerMap.get(index).getCustomerID().equals(generatedID))
+                return false;
+            index++;
+        }
+        return true;
+    }
+
+    /**
+     * This method is used
+     * to generate a random Customer ID
+     * based on a given prefix and a number of digits
+     */
+    public String generateCustomerID(String prefix,int numberOfDigits){
+        //append the prefix to the id
+        String generatedID= prefix + "-";
+        for(int index=1;index<numberOfDigits;index++){
+            //generate a random digit at a time
+           int generatedDigit = randomGenerator.nextInt(10);
+           generatedID+= generatedDigit;
+        }
+        return generatedID;
+    }
+
+
+
 
     /**
      * This method is used to check weather
@@ -162,16 +224,22 @@ public class ReservationSystem {
                                 switch (dataType) {
                                     case "[car data]":
                                         vehicle = new Car();
-                                        //the readData(scanner of the Car class will be called
-                                        vehicle.readData(secondScanner);
-                                        vehicleList.add(vehicle);
-                                        break;
+                                          break;
                                     case "[van data]":
                                         vehicle = new Van();
-                                        vehicle.readData(secondScanner);
-                                        vehicleList.add(vehicle);
                                         break;
+                                    case "[truck data]":
+                                        vehicle = new Truck();
+                                        break;
+
                                 }
+                                vehicle.readData(secondScanner);
+                               // vehicleMap.add(vehicle);
+                                vehicleMap.put(vehicle.getVehID(),vehicle);
+
+
+
+
                             } else {
                                     /*
                                       If the line is a flag set the data type accordingly
@@ -197,4 +265,22 @@ public class ReservationSystem {
         fileDialog.setVisible(true);
         return fileDialog.getFile();
     }
+
+    /**
+     * This method is used to
+     * get a Customer object from the
+     * customerMap by passing a customerID
+     */
+    public Customer getCustomer(String customerID){
+        return customerMap.get(customerID);
+    }
+    /**
+     * This method is used to
+     * get a Vehicle object from the
+     * vehicleMap by passing a vehicleID
+     */
+    public Vehicle getVehicle(String vehicleID){
+        return vehicleMap.get(vehicleID);
+    }
+
 }

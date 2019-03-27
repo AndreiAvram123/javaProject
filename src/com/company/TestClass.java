@@ -106,9 +106,9 @@ public class TestClass {
         //if the method works we should see a file name test_file.txt
         //with the data passed to the Customer constructor for
         //each object
-//        Customer customer = new Customer("Newton", "David", "E" ,"Dr");
-//        Customer customer2 = new Customer("Newton", "David", "E" ,"Dr");
-//
+////        Customer customer = new Customer("Newton", "David", "E" ,"Dr");
+////        Customer customer2 = new Customer("Newton", "David", "E" ,"Dr");
+////
 //        try {
 //            PrintWriter printWriter = new PrintWriter("test_file.txt");
 //            customer.writeData(printWriter);
@@ -121,9 +121,34 @@ public class TestClass {
 
         //Check if the method writeCustomerData() works
         //after we read the customers from the data file
-        ReservationSystem reservationSystem = new ReservationSystem();
-        reservationSystem.readCustomerData();
-        reservationSystem.writeCustomerData();
+//        ReservationSystem reservationSystem = new ReservationSystem();
+//        reservationSystem.readCustomerData();
+//        reservationSystem.writeCustomerData();
+
+        //TODO
+        //test all readData() from vehicles
+
+          //TODO
+        // Read truck data
+        //test truck scanner
+
+        //check if the generateCustomerID() works as expected
+//        ReservationSystem reservationSystem = new ReservationSystem();
+//        String generatedID = reservationSystem.generateCustomerID("AB",6);
+//        //we should now see a generated random number in the terminal
+//        System.out.println(generatedID);
+//
+
+
+          //test if everything works after changing the data structures
+//           ReservationSystem reservationSystem = new ReservationSystem();
+//           //test if we are able to read vehicle data
+//           reservationSystem.readVehicleData();
+//           reservationSystem.printAllVehicles();
+//           //test if we are able to read customer data
+//           reservationSystem.readCustomerData();
+//           reservationSystem.printAllCusomers();
+//
 
     }
 }

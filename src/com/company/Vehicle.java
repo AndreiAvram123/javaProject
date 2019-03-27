@@ -48,11 +48,11 @@ public abstract class Vehicle {
     }
 
 
-    private boolean convertToBoolean(String next) {
+    protected boolean convertToBoolean(String next) {
         return next.equals("Yes");
     }
 
-    private String convertToString(Boolean bool) {
+    protected String convertToString(Boolean bool) {
         if (bool) {
             return "Yes";
         } else {

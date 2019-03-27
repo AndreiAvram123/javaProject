@@ -1,7 +1,9 @@
 package com.company;
 
+import java.util.Scanner;
+
 public abstract class Commercial extends Vehicle {
-    private int payload;
+    protected int payload;
 
     public Commercial(){
 
@@ -10,4 +12,10 @@ public abstract class Commercial extends Vehicle {
     public int getPayload(){
         return payload;
     }
+
+    @Override
+    public void readData(Scanner scanner){
+        super.readData(scanner);
+    }
+
 }
