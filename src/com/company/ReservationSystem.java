@@ -7,10 +7,12 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
+//TODO
+//a method write vehicle data
 public class ReservationSystem {
 
-     private List<Vehicle> vehicleList;
-      private List<Customer> customerList;
+//     private List<Vehicle> vehicleList;
+//      private List<Customer> customerList;
     private Map<String,Vehicle> vehicleMap;
     private Map<String,Customer> customerMap;
     private Random randomGenerator;
@@ -20,8 +22,8 @@ public class ReservationSystem {
      * Used to initialize the vehicleMap
      */
     public ReservationSystem() {
-        vehicleList = new ArrayList<Vehicle>();
-        customerList = new ArrayList<Customer>();
+//        vehicleList = new ArrayList<Vehicle>();
+//        customerList = new ArrayList<Customer>();
         vehicleMap = new HashMap<String,Vehicle>();
         customerMap = new HashMap<String,Customer>();
         randomGenerator = new Random();
@@ -34,7 +36,7 @@ public class ReservationSystem {
      * the vehicle list
      */
     public void printAllVehicles() {
-//        for (Vehicle vehicle : vehicleMap) {
+//        for (Vehicle vehicle : vehicleList) {
 //            vehicle.printDetails();
 //        }
 
@@ -49,9 +51,9 @@ public class ReservationSystem {
      * print the details of all customers
      */
     public void printAllCusomers() {
-        for(Customer customer : customerMap.values()){
-            customer.printDetails();
-        }
+//        for(Customer customer : customerList){
+//            customer.printDetails();
+//        }
 
         for(Customer customer : customerMap.values()){
             customer.printDetails();
@@ -123,7 +125,8 @@ public class ReservationSystem {
      * This method is used
      * to store a customer
      */
-    public void storeCustomer(Customer customer) {
+    //the method is made private after testing
+    private void storeCustomer(Customer customer) {
         String customerID = customer.getCustomerID();
         if(customerID.equals("unknown")){
              String generatedID = generateCustomerID("AB-",6);
@@ -153,7 +156,8 @@ public class ReservationSystem {
      * to generate a random Customer ID
      * based on a given prefix and a number of digits
      */
-    public String generateCustomerID(String prefix,int numberOfDigits){
+    //the method is made private after testing
+    private String generateCustomerID(String prefix,int numberOfDigits){
         //append the prefix to the id
         String generatedID= prefix + "-";
         for(int index=1;index<numberOfDigits;index++){
@@ -185,6 +189,8 @@ public class ReservationSystem {
         return true;
 
     }
+
+
 
     /**
      * This method is used
@@ -220,6 +226,7 @@ public class ReservationSystem {
                                 Scanner secondScanner = new Scanner(outputLine);
                                 secondScanner.useDelimiter("\\s*,\\s*");
                                 //check what kind of vehicle we need to read
+
                                 Vehicle vehicle = null;
                                 switch (dataType) {
                                     case "[car data]":
@@ -233,19 +240,21 @@ public class ReservationSystem {
                                         break;
 
                                 }
-                                vehicle.readData(secondScanner);
-                               // vehicleMap.add(vehicle);
-                                vehicleMap.put(vehicle.getVehID(),vehicle);
-
-
-
+                                //after entering the switch statement the
+                                //vehicle should never be null, but we will
+                                //still check
+                                if(vehicle!=null) {
+                                    vehicle.readData(secondScanner);
+                                    // vehicleMap.add(vehicle);
+                                    vehicleMap.put(vehicle.getVehID(), vehicle);
+                                }
 
                             } else {
                                     /*
                                       If the line is a flag set the data type accordingly
                                       I have made the dataType lowercase
                                       in order to get rid of checking
-                                      if the dataType is [Car Data],[Car data]..
+                                      if the dataType is [Car Data],[Van data] or [Truck data]
                                      */
                                 dataType = outputLine.toLowerCase();
                             }

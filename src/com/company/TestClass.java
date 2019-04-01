@@ -4,8 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * This class is used for testing
+ * the application
+ */
 public class TestClass {
-
+    //call this method to run all tests
     public void executeTests() {
         //check if we are able to create a vehicle
         //with the custom constructor
@@ -125,12 +129,16 @@ public class TestClass {
 //        reservationSystem.readCustomerData();
 //        reservationSystem.writeCustomerData();
 
-        //TODO
-        //test all readData() from vehicles
 
-          //TODO
-        // Read truck data
-        //test truck scanner
+           //Check the method readData() from the Truck class
+           // if we are able to read data on a Truck
+//           Truck truck = new Truck();
+//           Scanner testScanner = new Scanner(
+// "T4, JK-64294, GH08YFT, Ford, Transit TD Ci 100 PS , No, 2.4, " +
+//         "Diesel, five-speed manual, RWD, 25334, 17-03-2008, 1100, Double cab, Tipper, dual rear wheels");
+//           truck.readData(testScanner);
+//           truck.printDetails();
+
 
         //check if the generateCustomerID() works as expected
 //        ReservationSystem reservationSystem = new ReservationSystem();
@@ -147,7 +155,7 @@ public class TestClass {
 //           reservationSystem.printAllVehicles();
 //           //test if we are able to read customer data
 //           reservationSystem.readCustomerData();
-//           reservationSystem.printAllCusomers();
+//           reservationSystem.printAllCustomers();
 //
 
     }

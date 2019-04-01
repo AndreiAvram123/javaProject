@@ -22,4 +22,18 @@ public class Truck extends Commercial {
 
     }
 
+    /**
+     * This method is used to print all the
+     * details of a Truck object
+     * It overrides the method from the superclass
+     * Commercial
+     */
+    @Override
+    public void printDetails(){
+        super.printDetails();
+        for(String attribute: attributes){
+            System.out.print(attribute +" , ");
+        }
+    }
+
 }

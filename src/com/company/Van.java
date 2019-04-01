@@ -7,21 +7,26 @@ public class Van extends Commercial {
     private boolean slidingSideDoor;
 
     public Van() {
-        super();
+
     }
 
     /**
      * This method is used to read all the data about
-     * a Van object by passing a scanner objectc
+     * a Van object by passing a scanner object
+     * The method overrides the one from the superclass
+     * Commercial
      * @param scanner -contains a line of text
      *                with all the values of the
      */
     @Override
     public void readData(Scanner scanner) {
         if (scanner != null) {
+            //read the Commercial data
             super.readData(scanner);
-            payload = scanner.nextInt();
+            // read Van specific data
             loadVolume = scanner.nextDouble();
+            //call a method from super that convert "YES" from the data
+            //file to true or "NO" to false
             slidingSideDoor = super.convertToBoolean(scanner.next());
 
         }
@@ -35,11 +40,19 @@ public class Van extends Commercial {
         return slidingSideDoor;
     }
 
+    /**
+     * This method is used to print all the details from a
+     * Van object. It calls the method from the superclass
+     * Commercial to print all the details of a commercial Vehicle.
+     * Then the method prints the other data specific only to a Van
+     */
     @Override
     public void printDetails(){
+         //call the method from super
         super.printDetails();
-        //TODO
-        //more things
+        System.out.println("Load volume: " + loadVolume + " Sliding side Door : " + super.convertToString(slidingSideDoor));
+        //after printing a vehicle print an empty line
+        System.out.println();
     }
 
 }

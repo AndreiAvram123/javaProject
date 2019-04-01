@@ -9,8 +9,7 @@ public class Car extends Vehicle {
 
     //default constructor
     public Car() {
-        //call the constructor of the superclass
-        super();
+
     }
 
     @Override

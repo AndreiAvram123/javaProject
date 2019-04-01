@@ -2,6 +2,9 @@ package com.company;
 
 import java.util.Scanner;
 
+
+//TODO
+//Does it say somewhere that the output should be the same as in the file????
 public abstract class Vehicle {
 
     private String group;
@@ -17,9 +20,11 @@ public abstract class Vehicle {
     private int mileage;
     private String dateFirstRegistered;
 
-    public Vehicle() {
-
-    }
+    //after implementing the more specific classes
+    //such as Car we no longer need this constructor
+//    public Vehicle() {
+//
+//    }
 
     /**
      * This method is used in order
@@ -47,11 +52,23 @@ public abstract class Vehicle {
         }
     }
 
-
+    /**
+     * This method is used to convert a String "Yes" or "No" from
+     * the data file to true or false
+     * Because it is declared protected it can also be
+     * used by subclasses
+     * @param next
+     * @return
+     */
     protected boolean convertToBoolean(String next) {
         return next.equals("Yes");
     }
 
+    /**
+     * This method is used to convert a true or false
+     * boolean value to "Yes" or "No"
+     * @return
+     */
     protected String convertToString(Boolean bool) {
         if (bool) {
             return "Yes";
@@ -72,6 +89,7 @@ public abstract class Vehicle {
                 model, group, vehID, convertToString(airCon), engineSize, fuelType, gearBox, transmission, mileage, dateFirstRegistered);
         System.out.println(outputLine);
     }
+
 
     public String getGroup() {
         return group;
