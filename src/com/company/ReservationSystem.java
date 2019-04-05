@@ -1,6 +1,5 @@
 package com.company;
-//TODO
-//reafactor the write to file data to avoid file duplication
+
 
 import java.awt.*;
 import java.io.File;
@@ -9,8 +8,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
-//TODO
-//generate a random digit and then check if that unique number is IN THE SYSTEM
 public class ReservationSystem {
 
     // private List<Vehicle> vehicleList;
@@ -55,9 +52,6 @@ public class ReservationSystem {
         lastReservationNumber = 0;
         lastNumberGeneratedFileName = "LastNumberGenerated.txt";
         diary = new Diary();
-        //read the vehicle_data_2.txt file
-        readVehicleData("vehicle_data_2.txt");
-
         //assign default values to these files, assume that the user will not
         //call the other custom constructor
         dumpCustomerDataFileName = "reservation_system_name_default" + "_customer_dump.txt";
@@ -74,24 +68,33 @@ public class ReservationSystem {
     public void closeDownSystem() {
         writeCustomerData(dumpCustomerDataFileName);
         writeVehicleReservationData(dumpVehicleReservationDataFileName);
+        writeReservationNumberToFile();
     }
 
     /**
      * This method is used to reload the
      * data on the system when restarted
      */
-    public void reloadSystem(){
-         //check if we have the dumpCustomerDataFileName
-        if(isFilePathValid(dumpCustomerDataFileName)) {
-           readCustomerData(dumpCustomerDataFileName);
-       }
+    public void reloadSystem() {
+        //read the vehicle_data_2.txt file
+         readVehicleData("vehicle_data_2.txt");
+        //check if we have the dumpCustomerDataFileName
+        if (isFilePathValid(dumpCustomerDataFileName)) {
+            readCustomerData(dumpCustomerDataFileName);
+        }
         //check if we have the dumpVehicleReservationDataFileName
-       if(isFilePathValid(dumpVehicleReservationDataFileName)) {
-           readVehicleReservationData(dumpVehicleReservationDataFileName);
-       }
+        if (isFilePathValid(dumpVehicleReservationDataFileName)) {
+            readVehicleReservationData(dumpVehicleReservationDataFileName);
+        }
+
+        //check if there a a txt file with our last reservation
+        //number generated
+        //if there is such a file then set firstCallToGenerateReservationNo to false
+        if (isFilePathValid(lastNumberGeneratedFileName)) {
+            firstCallToGenerateReservationNo = false;
+            readLastReservationNumber();
+        }
     }
-
-
 
 
     /**
@@ -107,6 +110,8 @@ public class ReservationSystem {
      * This method is used to delete a VehicleReservation
      * object from the ReservationSystem
      */
+    //TODO
+    //what should happen to the last reservation number??
     public void deleteVehicleReservation(String reservationNumber) {
         //check if the actual reservation exists in the system
         if (vehicleReservationMap.get(reservationNumber) != null) {
@@ -129,8 +134,6 @@ public class ReservationSystem {
      */
     public void printDiaryEntries(String startDate, String endDate) {
         //check if the start date and the end date are valid
-        //TODO
-        // I assume that startDate and endDate are short format?
         if (DateUtil.isValidDateString(startDate)) {
             if (DateUtil.isValidDateString(endDate)) {
                 //convert the Strings to Date objects
@@ -149,10 +152,6 @@ public class ReservationSystem {
     }
 
 
-    //TODO
-    //write this method
-    //this method should be private
-
     /**
      * This method is used to generate a unique reservation
      * number
@@ -161,13 +160,55 @@ public class ReservationSystem {
      *
      * @return
      */
-    private String generateReservationNo() {
-        //increment the lastReservationNumber by one
-        String generatedNumber = "0";
-        lastReservationNumber++;
-        writeReservationNumberToFile();
-        return generatedNumber;
+    public String generateReservationNo() {
+        //check if this is the first call ever to this method
+        //if so ,then
+        // 1)generate a random reservation number
+        // 2)assign its  value to the lastReservationNumber field
+        if (firstCallToGenerateReservationNo) {
+            //generate a random digit
+            //there is no need to pad out the number here
+            int randomDigit = randomGenerator.nextInt(10);
+            lastReservationNumber = randomDigit;
+        } else {
+            //in this case there is a lastGeneratedReservation number inside the txt file
+            //increment the number by one
+            lastReservationNumber++;
+        }
+        return padOutLastReservationNumber();
     }
+
+    private String padOutLastReservationNumber() {
+        //convert the lastReservationNumber to String
+        String lastReservationNumberPadded = lastReservationNumber + "";
+        //the padded number should have 6 characters in total
+        //if our lastReservationNumber is 77 then we need to add 4 zeroes to it
+        int zeroesToAdd = 6 - lastReservationNumberPadded.length();
+        for (int index = 1; index <= zeroesToAdd; index++) {
+            lastReservationNumberPadded = "0" + lastReservationNumberPadded;
+        }
+        return lastReservationNumberPadded;
+    }
+
+    /**
+     * This method is used to read the
+     * last generated reservation number
+     * from LastNumberGenerated.txt
+     */
+    private void readLastReservationNumber() {
+        File file = new File(lastNumberGeneratedFileName);
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (scanner != null) {
+            lastReservationNumber = scanner.nextInt();
+            scanner.close();
+        }
+    }
+
 
     /**
      * This method is used to get
@@ -203,7 +244,7 @@ public class ReservationSystem {
     private void writeReservationNumberToFile() {
         try {
             PrintWriter printWriter = new PrintWriter(lastNumberGeneratedFileName);
-            printWriter.println(lastReservationNumber);
+            printWriter.println(padOutLastReservationNumber());
             printWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -223,7 +264,7 @@ public class ReservationSystem {
      */
     public boolean makeVehicleReservation(String customerID, String vehID,
                                           String startDate, int noOfDays) {
-        String reservationNo = generateReservationNo() + "";
+        String reservationNo = generateReservationNo();
         if (vehicleMap.get(vehID) == null) {
             //this means that there isn't a vehicle with a corresponding id available
             System.out.println("There is not a vehicle with the corresponding id available");
@@ -246,20 +287,28 @@ public class ReservationSystem {
             for (int index = 1; index <= noOfDays; index++) {
                 VehicleReservation[] vehicleReservations = diary.getReservations(start);
                 //loop through all the reservations
-                for (VehicleReservation vehicleReservation : vehicleReservations) {
-                    //check if there is a reservation for that specific vehID
-                    if (vehicleReservation.getVehID().equals(vehID)) ;
-                    //exit method if there is already a reservation
-                    return false;
+                //if there are no reservations for that date, the vehicleReservations array is
+                //null
+                if (vehicleReservations != null) {
+                    for (int i = 0; i < vehicleReservations.length; i++) {
+                        VehicleReservation vehicleReservation = vehicleReservations[i];
+                        //check if there is a reservation for that specific vehID
+                        if (vehicleReservation.getVehID().equals(vehID)) {
+                            //exit method if there is already a reservation
+                            return false;
+                        }
+                    }
+                    //increment the start Date object by one day
+                    DateUtil.nextDate(start);
                 }
-                //increment the start Date object by one day
-                DateUtil.nextDate(start);
-                VehicleReservation vehicleReservation = new VehicleReservation(reservationNo, vehID, customerID, startDate, noOfDays);
-                storeVehicleReservation(vehicleReservation);
-                System.out.println("We have successfully booked your reservation");
-                return true;
             }
+
             //we exit the loop,this means that there is no reservation for that vehicle
+            VehicleReservation vehicleReservation = new VehicleReservation(reservationNo, vehID, customerID, startDate, noOfDays);
+            storeVehicleReservation(vehicleReservation);
+            System.out.println("We have successfully booked your reservation for the vehicle " + vehID);
+            return true;
+
         } else {
             System.out.println("The date is not of correct format.Enter a date such as 25-03-2016");
         }
@@ -406,30 +455,31 @@ public class ReservationSystem {
             try {
                 readScanner = new Scanner(file);
             } catch (FileNotFoundException e) {
-                 e.printStackTrace();
+                e.printStackTrace();
             }
         }
         return readScanner;
     }
 
     public void readCustomerData(String fileName) {
-
-        Scanner read = getScannerFromFilePath(fileName);
-        //the scanner remains null if the file does not exist
-        if (read != null) {
-            while (read.hasNextLine()) {
-                String readLine = read.nextLine().trim();
-                if (!readLine.isBlank()) {
-                    if (!readLine.startsWith("//")) {
-                        Scanner scanner = new Scanner(readLine);
-                        scanner.useDelimiter("\\s*,\\s*");
-                        Customer customer = new Customer();
-                        customer.readData(scanner);
-                        storeCustomer(customer);
+        if(isFilePathValid(fileName)) {
+            Scanner read = getScannerFromFilePath(fileName);
+            //the scanner remains null if the file does not exist
+            if (read != null) {
+                while (read.hasNextLine()) {
+                    String readLine = read.nextLine().trim();
+                    if (!readLine.isBlank()) {
+                        if (!readLine.startsWith("//")) {
+                            Scanner scanner = new Scanner(readLine);
+                            scanner.useDelimiter("\\s*,\\s*");
+                            Customer customer = new Customer();
+                            customer.readData(scanner);
+                            storeCustomer(customer);
+                        }
                     }
                 }
+                read.close();
             }
-            read.close();
         }
     }
 
@@ -596,15 +646,15 @@ public class ReservationSystem {
         }
         //check for the existence of the file
         File file = new File(filePath);
-        if(!file.exists() || file.isDirectory())
-        {
+        if (!file.exists() || file.isDirectory()) {
             return false;
         }
         return true;
 
     }
 
-
+     //TODO
+    //should we make this method private if we are only reading from one specific file??
     /**
      * This method is used to read Vehicle
      * data from a given txt file
@@ -612,58 +662,60 @@ public class ReservationSystem {
      * @param fileName
      */
     public void readVehicleData(String fileName) {
-        Scanner scanner = getScannerFromFilePath(fileName);
-        //check if the scanner is null
-        if (scanner != null) {
-            String dataType = "";
-            while (scanner.hasNextLine()) {
-                String outputLine = scanner.nextLine();
-                //check if the line is blank
-                if (!outputLine.isBlank()) {
-                    //check if the line is a comment
-                    if (!outputLine.startsWith("//")) {       //check if the line is a type of vehicle
-                        if (!outputLine.matches("^\\[.+\\]$")) {
-                            //       System.out.println(outputLine);
-                            Scanner secondScanner = new Scanner(outputLine);
-                            secondScanner.useDelimiter("\\s*,\\s*");
-                            //check what kind of vehicle we need to read
+        if(isFilePathValid(fileName)) {
+            Scanner scanner = getScannerFromFilePath(fileName);
+            //check if the scanner is null
+            if (scanner != null) {
+                String dataType = "";
+                while (scanner.hasNextLine()) {
+                    String outputLine = scanner.nextLine();
+                    //check if the line is blank
+                    if (!outputLine.isBlank()) {
+                        //check if the line is a comment
+                        if (!outputLine.startsWith("//")) {       //check if the line is a type of vehicle
+                            if (!outputLine.matches("^\\[.+\\]$")) {
+                                //       System.out.println(outputLine);
+                                Scanner secondScanner = new Scanner(outputLine);
+                                secondScanner.useDelimiter("\\s*,\\s*");
+                                //check what kind of vehicle we need to read
 
-                            Vehicle vehicle = null;
-                            switch (dataType) {
-                                case "[car data]":
-                                    vehicle = new Car();
-                                    break;
-                                case "[van data]":
-                                    vehicle = new Van();
-                                    break;
-                                case "[truck data]":
-                                    vehicle = new Truck();
-                                    break;
+                                Vehicle vehicle = null;
+                                switch (dataType) {
+                                    case "[car data]":
+                                        vehicle = new Car();
+                                        break;
+                                    case "[van data]":
+                                        vehicle = new Van();
+                                        break;
+                                    case "[truck data]":
+                                        vehicle = new Truck();
+                                        break;
 
-                            }
-                            //after entering the switch statement the
-                            //vehicle should never be null, but we will
-                            //still check
-                            if (vehicle != null) {
-                                vehicle.readData(secondScanner);
-                                // vehicleMap.add(vehicle);
-                                storeVehicle(vehicle);
-                            }
+                                }
+                                //after entering the switch statement the
+                                //vehicle should never be null, but we will
+                                //still check
+                                if (vehicle != null) {
+                                    vehicle.readData(secondScanner);
+                                    // vehicleMap.add(vehicle);
+                                    storeVehicle(vehicle);
+                                }
 
-                        } else {
+                            } else {
                                     /*
                                       If the line is a flag set the data type accordingly
                                       I have made the dataType lowercase
                                       in order to get rid of checking
                                       if the dataType is [Car Data],[Van data] or [Truck data]
                                      */
-                            dataType = outputLine.toLowerCase();
+                                dataType = outputLine.toLowerCase();
+                            }
                         }
                     }
                 }
+                //close the scanner after use
+                scanner.close();
             }
-            //close the scanner after use
-            scanner.close();
         }
     }
 
@@ -691,6 +743,8 @@ public class ReservationSystem {
      *
      * @param vehicle
      */
+
+
     private void storeVehicle(Vehicle vehicle) {
         vehicleMap.put(vehicle.getVehID(), vehicle);
     }
@@ -728,7 +782,7 @@ public class ReservationSystem {
      * total number of vehicles stored in the
      * system
      */
-    public int getNumberOfVehicles(){
+    public int getNumberOfVehicles() {
         return vehicleMap.size();
     }
 
@@ -737,7 +791,7 @@ public class ReservationSystem {
      * total number of customers stored
      * in the system
      */
-    public int getNumberOfCustomers(){
+    public int getNumberOfCustomers() {
         return customerMap.size();
     }
 
@@ -747,15 +801,15 @@ public class ReservationSystem {
      *
      */
 //    public String getDumpCustomerDataFileName(){
-  //      return  dumpCustomerDataFileName;
-   // }
+    //      return  dumpCustomerDataFileName;
+    // }
 
     /**
      * Method only used for testing purposes
      * @return
      */
-   // public String getDumpVehicleReservationDataFileName(){
-     //   return  dumpVehicleReservationDataFileName;
+    // public String getDumpVehicleReservationDataFileName(){
+    //   return  dumpVehicleReservationDataFileName;
     //}
 
 }

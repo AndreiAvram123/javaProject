@@ -1,5 +1,9 @@
 package com.company;
 
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.atomic.DoubleAccumulator;
+
 /**
  * This class is used for testing
  * the application
@@ -114,7 +118,7 @@ public class TestClass {
 //            customer.writeData(printWriter);
 //            customer2.writeData(printWriter);
 //            printWriter.close();
-//        } catch (FileNotFoundException e) {
+       // } catch(FileNotFoundException e) {
 //            e.printStackTrace();
 //        }
 
@@ -254,8 +258,38 @@ public class TestClass {
         //replaced by 1
         //reservationSystem.writeReservationNumberToFile();
 
-        //TODO
-        //test methods from the Diary class
+        //test he method addReservation() from the Diary class
+       // Diary diary = new Diary();
+        //create a vehicle reservation object
+        //VehicleReservation vehicleReservation = new VehicleReservation("000001","TF-63403","AB-707381"
+          //      ,"04-04-2019",2);
+        //diary.addReservation(vehicleReservation);
+        //Date startDate = DateUtil.convertStringToDate("04-04-2019");
+        //Date endDate = DateUtil.convertStringToDate("05-04-2019");
+        //if we use the method printEntries(Date startDate, Date endDate) we should see our
+        //reservation
+        //diary.printEntries(startDate,endDate);
+
+        //now,add a reservation to the diary and then test
+        //the method deleteReservation(VehicleReservation vehicleReservation)
+         //Diary diary = new Diary();
+         //create a vehicle reservation object
+         //VehicleReservation vehicleReservation = new VehicleReservation("000001","TF-63403","AB-707381"
+          //    ,"04-04-2019",2);
+        //diary.addReservation(vehicleReservation);
+        //Date startDate = DateUtil.convertStringToDate("04-04-2019");
+        //the length of the array should be 1 because we only have
+        //one reservation on that day
+        //int size = diary.getReservations(startDate).length;
+        //if(size ==1){
+         //   System.out.println("Method works");
+        //}else {
+         //   System.out.println("Method does not work");
+       // }
+
+
+
+
 
 
         //test the method makeVehicleReservation() from the ReservationSystem class
@@ -303,6 +337,46 @@ public class TestClass {
         // reservationSystem.printDiaryEntries("04-04-2019","05-04-2019");
 
 
+        //test the method getReservations(Date date) from the Diary class
+
+
+
+        //test the method generateReservationNo() when
+        // there are no previous reservations made
+        //meaning that there is no txt file available
+        //to read the last reservation number
+        //ReservationSystem reservationSystem = new ReservationSystem();
+        //the method should generate a padded number with the last
+        //digit between 0 and 9
+        //System.out.println(reservationSystem.generateReservationNo());
+
+
+        //test and see if we successfully write the last reservation number to the txt file
+        // if we close down the system
+         //ReservationSystem reservationSystem = new ReservationSystem();
+        //create 2 car objects with data
+//         Scanner testScanner = new Scanner("AA, TF-63403, MJ09TFE, Fiat, Panda Active Eco, No,  1.1, Unleaded, five-speed manual, FWD, 13584, 29-07-2009, Hatchback, 5, 5");
+//         Scanner testScanner2 = new Scanner("B, TF-68670, MA59DCS, Vauxhall, Corsa Exclusiv, Yes, 1.4, Unleaded, four-speed auto, FWD, 1734, 12-12-2009, Hatchback, 5, 5");
+//         testScanner.useDelimiter("\\s*,\\s*");
+//         testScanner2.useDelimiter("\\s*,\\s*");
+//         Car car = new Car();
+//         Car car2 = new Car();
+//         car.readData(testScanner);
+//         car2.readData(testScanner2);
+//         reservationSystem.storeVehicle(car);
+//         reservationSystem.storeVehicle(car2);
+//        create a Customer object and store it in the ReservationSystem
+//         Customer customer = new Customer("Newton", "David", "E", "Dr");
+//         reservationSystem.storeCustomer(customer);
+//         make reservations for the cars above
+//        reservationSystem.makeVehicleReservation(customer.getCustomerID(),car.getVehID(),"05-04-2019",2);
+//        reservationSystem.makeVehicleReservation(customer.getCustomerID(),car2.getVehID(),"05-04-2019",2);
+//        close down the system
+//         reservationSystem.closeDownSystem();
+
+
+
+
         //test the method make makeVehicleReservation()
         //ReservationSystem reservationSystem = new ReservationSystem();
         //we need to create both an Object of type Vehicle and one of type Customer
@@ -326,7 +400,6 @@ public class TestClass {
          //and works)
         //the reservation has been made from 04-04-2019 to 06-04-2019
         //reservationSystem.storeVehicleReservation(vehicleReservation);
-
         //now try to make a reservation for our car object from 05-04-2019 to 07-04-2019
         //if the method works it should return false,meaning that we cannot reserve that during
         //that time
@@ -392,6 +465,9 @@ public class TestClass {
            //System.out.println(reservationSystem.getDumpCustomerDataFileName());
            //System.out.println(reservationSystem.getDumpVehicleReservationDataFileName());
 
+
+        //TODO
+        //we need to check the last reservationNumber as well
 
           //test the method closeDownSystem() too see if it creates the appropriate
          //data dump txt files in the project folder
