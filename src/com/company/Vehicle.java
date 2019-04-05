@@ -2,9 +2,6 @@ package com.company;
 
 import java.util.Scanner;
 
-
-//TODO
-//Does it say somewhere that the output should be the same as in the file????
 public abstract class Vehicle {
 
     private String group;

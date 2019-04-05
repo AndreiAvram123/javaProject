@@ -14,11 +14,13 @@ public class Car extends Vehicle {
 
     @Override
     public void printDetails() {
+        //print a helpful line to indicate that this is car
+        System.out.println("This is a car:");
         super.printDetails();
         System.out.println(String.format("Body type %s\nNumber of doors %s" +
                 "\nNumber of seats %s ", bodyType, noOfDoors, noOfSeats));
-        //Make the output more readable by adding new lines
-        System.out.println("\n\n\n");
+        //Make the output more readable by adding an empty line
+        System.out.println();
     }
 
     @Override

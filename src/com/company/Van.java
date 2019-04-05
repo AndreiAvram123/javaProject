@@ -48,6 +48,8 @@ public class Van extends Commercial {
      */
     @Override
     public void printDetails(){
+        //print a helpful line to indicate that this is a van
+        System.out.println("This is a van:");
          //call the method from super
         super.printDetails();
         System.out.println("Load volume: " + loadVolume + " Sliding side Door : " + super.convertToString(slidingSideDoor));

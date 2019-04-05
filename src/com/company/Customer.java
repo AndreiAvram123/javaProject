@@ -11,12 +11,12 @@ public class Customer {
     private String title;
 
     //constructor used to read data
-    public Customer(){
+    public Customer() {
 
     }
 
 
-    public Customer(String surname,String firstName,String otherInitials,String title){
+    public Customer(String surname, String firstName, String otherInitials, String title) {
         this.customerID = "unknown";
         this.surname = surname;
         this.firstName = firstName;
@@ -28,10 +28,11 @@ public class Customer {
     /**
      * This method is used to read data
      * for the fields from a scanner object
+     *
      * @param scanner
      */
-    public void readData(Scanner scanner){
-        if(scanner!=null) {
+    public void readData(Scanner scanner) {
+        if (scanner != null) {
             customerID = scanner.next();
             surname = scanner.next();
             firstName = scanner.next();
@@ -45,25 +46,28 @@ public class Customer {
      * This method is used to print
      * the details for each Customer
      */
-    public void printDetails(){
+    public void printDetails() {
         System.out.println(String.format("Customer ID : %s" +
-                "\n%s  %s %s \nOther initials : %s",
-        customerID,title,firstName,surname,otherInitials));
+                "\n%s  %s %s \n", customerID, title, firstName, surname, otherInitials));
+        //check if there are no other initials
+        if (otherInitials.trim().isEmpty()) {
+            System.out.println("Other initials : None");
+        }
+
     }
 
     /**
      * This method is used in order to
      * print the data for the current
      * customer inside a txt file
+     *
      * @param printWriter
      */
-    public void  writeData(PrintWriter printWriter){
-         String outputLine = String.format("%s , %s , %s , %s , %s",
-                 customerID,surname,firstName,otherInitials,title);
-         printWriter.println(outputLine);
+    public void writeData(PrintWriter printWriter) {
+        String outputLine = String.format("%s , %s , %s , %s , %s",
+                customerID, surname, firstName, otherInitials, title);
+        printWriter.println(outputLine);
     }
-
-
 
 
     public String getCustomerID() {
