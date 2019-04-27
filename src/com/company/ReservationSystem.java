@@ -1,5 +1,7 @@
 package com.company;
 
+//TODO
+//validate the reservaton number
 
 import java.awt.*;
 import java.io.File;
@@ -77,7 +79,7 @@ public class ReservationSystem {
      */
     public void reloadSystem() {
         //read the vehicle_data_2.txt file
-         readVehicleData("vehicle_data_2.txt");
+        readVehicleData("vehicle_data_2.txt");
         //check if we have the dumpCustomerDataFileName
         if (isFilePathValid(dumpCustomerDataFileName)) {
             readCustomerData(dumpCustomerDataFileName);
@@ -110,8 +112,6 @@ public class ReservationSystem {
      * This method is used to delete a VehicleReservation
      * object from the ReservationSystem
      */
-    //TODO
-    //what should happen to the last reservation number??
     public void deleteVehicleReservation(String reservationNumber) {
         //check if the actual reservation exists in the system
         if (vehicleReservationMap.get(reservationNumber) != null) {
@@ -350,9 +350,6 @@ public class ReservationSystem {
     }
 
 
-    //TODO
-    //reservation data file???
-
     /**
      * This method is used to read vehicle reservation from
      * a given txt file
@@ -417,7 +414,7 @@ public class ReservationSystem {
     public void writeVehicleReservationData() {
         //after refactoring
         String filePath = getFilePathForSave();
-        writeCustomerData(filePath);
+        writeVehicleReservationData(filePath);
 
 //         if(isFilePathValid(filePath)) {
 //             PrintWriter printWriter = null;
@@ -462,7 +459,7 @@ public class ReservationSystem {
     }
 
     public void readCustomerData(String fileName) {
-        if(isFilePathValid(fileName)) {
+        if (isFilePathValid(fileName)) {
             Scanner read = getScannerFromFilePath(fileName);
             //the scanner remains null if the file does not exist
             if (read != null) {
@@ -653,16 +650,12 @@ public class ReservationSystem {
 
     }
 
-     //TODO
-    //should we make this method private if we are only reading from one specific file??
     /**
      * This method is used to read Vehicle
      * data from a given txt file
-     *
-     * @param fileName
      */
     public void readVehicleData(String fileName) {
-        if(isFilePathValid(fileName)) {
+        if (isFilePathValid(fileName)) {
             Scanner scanner = getScannerFromFilePath(fileName);
             //check if the scanner is null
             if (scanner != null) {
@@ -719,7 +712,6 @@ public class ReservationSystem {
         }
     }
 
-
     /**
      * This method is used to
      * read Vehicle Data from a txt
@@ -743,8 +735,6 @@ public class ReservationSystem {
      *
      * @param vehicle
      */
-
-
     private void storeVehicle(Vehicle vehicle) {
         vehicleMap.put(vehicle.getVehID(), vehicle);
     }
@@ -795,6 +785,14 @@ public class ReservationSystem {
         return customerMap.size();
     }
 
+    /**
+     * This method is used to get the
+     * total number of vehicle reservations
+     * from the system
+     */
+    public int getNumberOfVehicleReservation() {
+        return vehicleReservationMap.size();
+    }
 
     /**
      * Method only used for testing purposes

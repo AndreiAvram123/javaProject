@@ -441,17 +441,9 @@ public class TestClass {
 //          reservationSystem.printAllCustomers();
 
 
-
         //test if the method writeCustomerData() works after refactoring
         //ReservationSystem reservationSystem = new ReservationSystem();
        // reservationSystem.readCustomerData();
-
-
-
-        //test if the method writeVehicleReservationData() and readVehicleReservationData work as well
-        //TODO
-        //where do we read that data from ???
-
 
          //test if the default constructor from the ReservationSystem class reads
          //the vehicle data
@@ -464,10 +456,6 @@ public class TestClass {
           // ReservationSystem reservationSystem = new ReservationSystem("my_reservation_system");
            //System.out.println(reservationSystem.getDumpCustomerDataFileName());
            //System.out.println(reservationSystem.getDumpVehicleReservationDataFileName());
-
-
-        //TODO
-        //we need to check the last reservationNumber as well
 
           //test the method closeDownSystem() too see if it creates the appropriate
          //data dump txt files in the project folder

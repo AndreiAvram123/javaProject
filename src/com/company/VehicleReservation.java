@@ -21,7 +21,6 @@ public class VehicleReservation {
 
     }
 
-
     public VehicleReservation(String reservationNo, String vehID,
                               String customerID, String startDate, int noOfDays) {
 
